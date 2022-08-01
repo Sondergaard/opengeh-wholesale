@@ -17,10 +17,7 @@ from pyspark.sql.types import IntegerType
 
 
 def calculator(
-    spark,
-    raw_integration_events_df,
-    process_results_path,
-    batch_id,
+    spark, raw_integration_events_df, process_results_path, batch_id, time_series_df
 ):
     rdd = spark.sparkContext.parallelize(list(range(1, 97)))
     df_seq = spark.createDataFrame(rdd, schema=IntegerType()).withColumnRenamed(
@@ -33,6 +30,8 @@ def calculator(
     df_806 = df_seq.withColumn("grid_area", lit("806"))
 
     df = df_805.union(df_806)
+
+    join_time_series_with_metering_point(time_series_df, raw_integration_events_df)
 
     df = df.withColumn("quantity", lit(None)).withColumn("quality", lit(None))
     df.coalesce(1).write.mode("overwrite").partitionBy("grid_area").json(
@@ -51,3 +50,16 @@ def filter_integration_events_df(raw_integration_events_df, grid_area_code):
     return raw_integration_events_df.filter(
         col("MessageType") != "GridAreaUpdatedIntegrationEvent"
     ).join(grid_area_link_ids_df, "GridAreaLinkId")
+
+
+def join_time_series_with_metering_point(time_series_df, raw_integration_events_df):
+    return time_series_df.join(
+        raw_integration_events_df,
+        (
+            raw_integration_events_df["metering_point_id"]
+            == time_series_df["metering_point_id"]
+        )
+        & (time_series_df["time"] >= raw_integration_events_df["effective_date"])
+        & (time_series_df["time"] < raw_integration_events_df["effective_date"]),
+        how="left",
+    )
