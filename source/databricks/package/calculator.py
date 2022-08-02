@@ -56,10 +56,10 @@ def join_time_series_with_metering_point(time_series_df, raw_integration_events_
     return time_series_df.join(
         raw_integration_events_df,
         (
-            raw_integration_events_df["metering_point_id"]
-            == time_series_df["metering_point_id"]
-        )
-        & (time_series_df["time"] >= raw_integration_events_df["effective_date"])
-        & (time_series_df["time"] < raw_integration_events_df["effective_date"]),
+            raw_integration_events_df["MeteringPointId"]
+            == time_series_df["MeteringPointId"]
+        ),
+        # & (time_series_df["time"] >= raw_integration_events_df["EffectiveDate"])
+        # & (time_series_df["time"] < raw_integration_events_df["EffectiveDate"]),
         how="left",
     )

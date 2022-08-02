@@ -25,8 +25,12 @@ def test_calculator_creates_file(
 ):
     batchId = 1234
     process_results_path = f"{delta_lake_path}/results"
-    integration_events_path = f"{delta_lake_path}/../calculator/test_files"
-    time_series_path = f"{delta_lake_path}/../calculator/test_files"
+    integration_events_path = (
+        f"{delta_lake_path}/../calculator/test_files/integration_events_file.json"
+    )
+    time_series_path = (
+        f"{delta_lake_path}/../calculator/test_files/time_series_file.json"
+    )
 
     raw_integration_events_df = spark.read.format("json").load(integration_events_path)
 
