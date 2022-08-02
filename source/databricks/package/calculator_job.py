@@ -27,6 +27,7 @@ def start():
     p.add("--time-series-points-path", type=str, required=True)
     p.add("--process-results-path", type=str, required=True)
     p.add("--batch-id", type=str, required=True)
+    p.add("--time_series_path", type=str, required=True)
 
     args, unknown_args = p.parse_known_args()
     spark = initialize_spark(
@@ -37,6 +38,14 @@ def start():
         args.integration_events_path
     )
 
+    time_series_df = spark.read.option("mergeSchema", "true").parquet(
+        args.time_series_path
+    )
+
     calculator(
-        spark, raw_integration_events_df, args.process_results_path, args.batch_id
+        spark,
+        raw_integration_events_df,
+        args.process_results_path,
+        args.batch_id,
+        time_series_df,
     )
