@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pyspark.sql.functions import lit, col
+from pyspark.sql.functions import lit, col, lead
 from pyspark.sql.types import IntegerType
+from pyspark.sql.window import Window
 
 
 def calculator(
@@ -30,8 +31,10 @@ def calculator(
     df_806 = df_seq.withColumn("grid_area", lit("806"))
 
     df = df_805.union(df_806)
-
-    join_time_series_with_metering_point(time_series_df, raw_integration_events_df)
+    raw_integration_events_df.show()
+    join_time_series_with_metering_point(
+        time_series_df, raw_integration_events_df
+    ).show()
 
     df = df.withColumn("quantity", lit(None)).withColumn("quality", lit(None))
     df.coalesce(1).write.mode("overwrite").partitionBy("grid_area").json(
@@ -53,6 +56,11 @@ def filter_integration_events_df(raw_integration_events_df, grid_area_code):
 
 
 def join_time_series_with_metering_point(time_series_df, raw_integration_events_df):
+    window = Window.partitionBy("MeteringPointId").orderBy("EffectiveDate")
+    raw_integration_events_df = raw_integration_events_df.withColumn(
+        "toEffectiveDate",
+        lead("EffectiveDate", 1, "2099-01-01T23:00:00.000+0000").over(window),
+    )
     return time_series_df.join(
         raw_integration_events_df,
         (
@@ -60,6 +68,6 @@ def join_time_series_with_metering_point(time_series_df, raw_integration_events_
             == time_series_df["MeteringPointId"]
         )
         & (time_series_df["time"] >= raw_integration_events_df["EffectiveDate"])
-        & (time_series_df["time"] < raw_integration_events_df["EffectiveDate"]),
+        & (time_series_df["time"] < raw_integration_events_df["toEffectiveDate"]),
         how="left",
     )
