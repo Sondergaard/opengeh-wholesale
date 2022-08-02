@@ -26,15 +26,10 @@ def test_calculator_creates_file(
     batchId = 1234
     process_results_path = f"{delta_lake_path}/results"
     integration_events_path = f"{delta_lake_path}/../calculator/test_files"
-    time_series_path = f"{delta_lake_path}/../calculator/test_files"
 
     raw_integration_events_df = spark.read.format("json").load(integration_events_path)
 
-    time_series_df = spark.read.format("json").load(time_series_path)
-
-    calculator(
-        spark, raw_integration_events_df, process_results_path, batchId, time_series_df
-    )
+    calculator(spark, raw_integration_events_df, process_results_path, batchId)
 
     jsonFile = find_first_file(
         f"{delta_lake_path}/results/batch_id={batchId}/grid_area=805", "part-*.json"
