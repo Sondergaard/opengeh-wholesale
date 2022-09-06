@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Azure.Storage.Blobs;
+using Azure.Storage.Files.DataLake;
 using Energinet.DataHub.Wholesale.Application.JobRunner;
 using Energinet.DataHub.Wholesale.Application.Processes;
 using Energinet.DataHub.Wholesale.Contracts.WholesaleProcess;
@@ -28,19 +30,22 @@ public class BatchApplicationService : IBatchApplicationService
     private readonly IProcessCompletedPublisher _processCompletedPublisher;
     private readonly ICalculatorJobRunner _calculatorJobRunner;
     private readonly ICalculatorJobParametersFactory _calculatorJobParametersFactory;
+    private readonly DataLakeFileSystemClient _dataLakeFileSystemClient;
 
     public BatchApplicationService(
         IBatchRepository batchRepository,
         IUnitOfWork unitOfWork,
         IProcessCompletedPublisher processCompletedPublisher,
         ICalculatorJobRunner calculatorJobRunner,
-        ICalculatorJobParametersFactory calculatorJobParametersFactory)
+        ICalculatorJobParametersFactory calculatorJobParametersFactory,
+        DataLakeFileSystemClient dataLakeFileSystemClient)
     {
         _batchRepository = batchRepository;
         _unitOfWork = unitOfWork;
         _processCompletedPublisher = processCompletedPublisher;
         _calculatorJobRunner = calculatorJobRunner;
         _calculatorJobParametersFactory = calculatorJobParametersFactory;
+        _dataLakeFileSystemClient = dataLakeFileSystemClient;
     }
 
     public async Task CreateAsync(BatchRequestDto batchRequestDto)
@@ -107,9 +112,27 @@ public class BatchApplicationService : IBatchApplicationService
 
     private List<ProcessCompletedEventDto> CreateProcessCompletedEvents(List<Batch> completedBatches)
     {
-        return completedBatches
-            .SelectMany(b => b.GridAreaCodes.Select(x => new { b.Id, x.Code }))
-            .Select(c => new ProcessCompletedEventDto(c.Code, c.Id.Value))
-            .ToList();
+        var completedEventsWithResults = new List<ProcessCompletedEventDto>();
+        var resultsBatchId = "results/batch_id=";
+
+        foreach (var completedBatch in completedBatches)
+        {
+            var resultBatchIdCompletedBatch = resultsBatchId + $"{completedBatch.Id}/";
+
+            foreach (var gridAreaCode in completedBatch.GridAreaCodes)
+            {
+                var resultBatchIdCompletedBatchGridArea = resultBatchIdCompletedBatch += $"grid_area={gridAreaCode.Code}/";
+                var directoryClient = _dataLakeFileSystemClient.GetDirectoryClient(resultBatchIdCompletedBatchGridArea);
+
+                if (directoryClient.Exists())
+                {
+                    completedEventsWithResults.Add(new ProcessCompletedEventDto(gridAreaCode.Code, completedBatch.Id.Value));
+                }
+
+                resultBatchIdCompletedBatchGridArea = resultBatchIdCompletedBatch;
+            }
+        }
+
+        return completedEventsWithResults;
     }
 }

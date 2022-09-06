@@ -30,6 +30,8 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.13.0" />
+    <PackageReference Include="Azure.Storage.Files.DataLake" Version="12.11.0" />
   </ItemGroup>
 
 </Project>
