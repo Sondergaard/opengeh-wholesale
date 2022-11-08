@@ -66,7 +66,13 @@ def _get_valid_args_or_throw(command_line_args: list[str]):
     return args
 
 
-def write_basis_data_to_csv(data_df: DataFrame, path: str):
+def write_basis_data_to_csv(data_df: DataFrame, path: str, grid_areas_df: DataFrame):
+    data_df = data_df.filter(col("GridAreaCode" == "806"))
+    data_df.join(
+        grid_areas_df,
+        data_df["GridAreaCode"] == grid_areas_df["GridAreaCode"],
+        "fullouter",
+    )
     (
         data_df.withColumnRenamed("GridAreaCode", "grid_area")
         .repartition("grid_area")
@@ -116,16 +122,19 @@ def _start_calculator(spark: SparkSession, args):
     write_basis_data_to_csv(
         timeseries_quarter_df,
         f"{args.process_results_path}/basis-data/batch_id={args.batch_id}/time-series-quarter",
+        batch_grid_areas_df,
     )
 
     write_basis_data_to_csv(
         timeseries_hour_df,
         f"{args.process_results_path}/basis-data/batch_id={args.batch_id}/time-series-hour",
+        batch_grid_areas_df,
     )
 
     write_basis_data_to_csv(
         master_basis_data_df,
         f"{args.process_results_path}/master-basis-data/batch_id={args.batch_id}",
+        batch_grid_areas_df,
     )
 
     # First repartition to co-locate all rows for a grid area on a single executor.
