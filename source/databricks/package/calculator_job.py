@@ -67,20 +67,19 @@ def _get_valid_args_or_throw(command_line_args: list[str]):
 
 
 def write_basis_data_to_csv(data_df: DataFrame, path: str, grid_areas_df: DataFrame):
-    data_df = data_df.filter(col("GridAreaCode" == "806"))
-    data_df.join(
-        grid_areas_df,
-        data_df["GridAreaCode"] == grid_areas_df["GridAreaCode"],
-        "fullouter",
-    )
-    (
-        data_df.withColumnRenamed("GridAreaCode", "grid_area")
-        .repartition("grid_area")
-        .write.mode("overwrite")
-        .partitionBy("grid_area")
-        .option("header", True)
-        .csv(path)
-    )
+    data_df = data_df.withColumnRenamed("GridAreaCode", "grid_area")
+
+    for grid_area_row in grid_areas_df.collect():
+        grid_area = grid_area_row.__getitem__('GridAreaCode')
+        print(f"{path}/grid_area={grid_area}")
+
+        (
+            data_df.filter(col("GridAreaCode") == grid_area)
+            .repartition("grid_area")
+            .write.mode("overwrite")
+            .option("header", True)
+            .csv(f"{path}/grid_area={grid_area}")
+        )
 
 
 def _start_calculator(spark: SparkSession, args):

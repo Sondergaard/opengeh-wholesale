@@ -61,7 +61,7 @@ def test_data_job_parameters(
             "time_series_points_path": f"{data_lake_path}/{worker_id}/parquet_test_files/time_series_points",
             "process_results_path": f"{data_lake_path}/{worker_id}/results",
             "batch_id": executed_batch_id,
-            "batch_grid_areas": [805, 806],
+            "batch_grid_areas": [805, 806, 807],
             "batch_snapshot_datetime": timestamp_factory("2022-09-02T21:59:00.000Z"),
             "batch_period_start_datetime": timestamp_factory(
                 "2022-04-01T22:00:00.000Z"
@@ -328,6 +328,30 @@ def test__creates_csv_per_grid_area(
 
     assert (
         basis_data_806.count() >= 1
+    ), "Calculator job failed to write basis data files for grid area 806"
+
+
+def test__creates_csv_for_grid_area_807_with_out_data(
+    spark, test_data_job_parameters, data_lake_path, executed_calculation_job, worker_id
+):
+    # Act
+    # we run the calculator once per session. See the fixture executed_calculation_job in top of this file
+
+    # Assert
+    basis_data_807_quarter = spark.read.option("header", "true").csv(
+        f"{data_lake_path}/{worker_id}/results/basis-data/batch_id={executed_batch_id}/time-series-quarter/grid_area=807"
+    )
+
+    basis_data_807_hour = spark.read.option("header", "true").csv(
+        f"{data_lake_path}/{worker_id}/results/basis-data/batch_id={executed_batch_id}/time-series-hour/grid_area=807"
+    )
+
+    assert (
+        basis_data_807_quarter.count() == 0
+    ), "Calculator job failed to write basis data files for grid area 805"
+
+    assert (
+        basis_data_807_hour.count() == 0
     ), "Calculator job failed to write basis data files for grid area 806"
 
 
