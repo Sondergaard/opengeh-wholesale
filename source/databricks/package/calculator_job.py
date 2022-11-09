@@ -71,11 +71,10 @@ def write_basis_data_to_csv(data_df: DataFrame, path: str, grid_areas_df: DataFr
 
     for grid_area_row in grid_areas_df.collect():
         grid_area = grid_area_row.__getitem__('GridAreaCode')
-        print(f"{path}/grid_area={grid_area}")
-
         (
             data_df.filter(col("GridAreaCode") == grid_area)
             .repartition("grid_area")
+            .drop("grid_area")
             .write.mode("overwrite")
             .option("header", True)
             .csv(f"{path}/grid_area={grid_area}")
