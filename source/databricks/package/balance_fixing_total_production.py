@@ -240,9 +240,35 @@ def _get_metering_point_periods_df(
         "Metering point created and connected events without duplicates",
         metering_point_events_df.orderBy(col("storedTime").desc()),
     )
+
+    # Use latest update for the metering point
+    windowLatest = Window.partitionBy("MeteringPointId").orderBy(
+        col("EffectiveDate").desc()
+    )
+
+    metering_point_periods_df_latest = (
+        metering_point_events_df.withColumn("row", row_number().over(windowLatest))
+        .filter(col("row") == 1)
+        .select(
+            "MessageType",
+            "MeteringPointId",
+            "MeteringPointType",
+            "GsrnNumber",
+            "GridAreaLinkId",
+            "ConnectionState",
+            "EffectiveDate",
+            "Resolution",
+            "OperationTime",
+            "SettlementMethod",
+            "FromGridAreaCode",
+            "ToGridAreaCode",
+            "EnergySupplierGln",
+        )
+    )
+
     window = Window.partitionBy("MeteringPointId").orderBy("EffectiveDate")
-    metering_point_periods_df = (
-        metering_point_events_df.withColumn(
+    metering_point_periods_df_windowed = (
+        metering_point_periods_df_latest.withColumn(
             "toEffectiveDate",
             lead("EffectiveDate", 1, "3000-01-01T23:00:00.000+0000").over(window),
         )
@@ -309,12 +335,13 @@ def _get_metering_point_periods_df(
     )
     debug(
         "Metering point events before join with grid areas",
-        metering_point_periods_df.orderBy(col("storedTime").desc()),
+        metering_point_periods_df_windowed.orderBy(col("storedTime").desc()),
     )
     # Only include metering points in the selected grid areas
-    metering_point_periods_df = metering_point_periods_df.join(
+    metering_point_periods_df = metering_point_periods_df_windowed.join(
         grid_area_df,
-        metering_point_periods_df["GridAreaLinkId"] == grid_area_df["GridAreaLinkId"],
+        metering_point_periods_df_windowed["GridAreaLinkId"]
+        == grid_area_df["GridAreaLinkId"],
         "inner",
     ).select(
         "GsrnNumber",
