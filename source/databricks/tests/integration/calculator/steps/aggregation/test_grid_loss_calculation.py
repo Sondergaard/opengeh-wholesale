@@ -19,13 +19,14 @@ from geh_stream.codelists import (
     ResultKeyName,
     MarketEvaluationPointType,
     ResolutionDuration,
-    SettlementMethod,
+    Quality,
 )
+from package.codelists import SettlementMethod
 from package.steps.aggregation import (
     calculate_grid_loss,
     calculate_residual_ga,
 )
-from geh_stream.codelists import Quality
+
 from geh_stream.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,

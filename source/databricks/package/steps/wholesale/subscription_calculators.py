@@ -14,8 +14,9 @@
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, last_day, dayofmonth, count, sum
 from pyspark.sql.types import DecimalType
-from geh_stream.codelists import Colname, MarketEvaluationPointType, SettlementMethod
+from geh_stream.codelists import Colname, MarketEvaluationPointType
 from geh_stream.schemas.output import calculate_daily_subscription_price_schema
+from package.codelists import SettlementMethod
 
 
 def calculate_daily_subscription_price(
