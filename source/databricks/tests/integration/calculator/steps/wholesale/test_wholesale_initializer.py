@@ -30,8 +30,8 @@ from geh_stream.codelists import (
     Colname,
     ChargeType,
     ResolutionDuration,
-    ConnectionState,
 )
+from package.codelists import ConnectionState
 from geh_stream.schemas import (
     charges_schema,
     charge_prices_schema,

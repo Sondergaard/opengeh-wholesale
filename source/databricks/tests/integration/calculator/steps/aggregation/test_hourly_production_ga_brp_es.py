@@ -18,13 +18,14 @@ from package.steps.aggregation import (
     aggregate_hourly_production,
     aggregate_per_ga_and_brp_and_es,
 )
-from geh_stream.codelists import MarketEvaluationPointType, ConnectionState, Quality
+from geh_stream.codelists import MarketEvaluationPointType, Quality
 from geh_stream.shared.data_classes import Metadata
 from geh_stream.schemas.output import aggregation_result_schema
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 import pytest
 import pandas as pd
+from package.codelists import ConnectionState
 
 e_17 = MarketEvaluationPointType.consumption.value
 e_18 = MarketEvaluationPointType.production.value

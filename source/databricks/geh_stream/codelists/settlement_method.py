@@ -14,8 +14,6 @@
 from enum import Enum
 
 
-# Keep aligned with the equivalent class in C#:
-# source/coordinator/Energinet.DataHub.Aggregation.Coordinator.Domain/Types/SettlementMethodType.cs
 class SettlementMethod(Enum):
     flex_settled = "D01"
     profiled = "E01"

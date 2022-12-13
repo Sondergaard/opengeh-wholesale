@@ -17,13 +17,13 @@ import pandas as pd
 from datetime import datetime, timedelta
 from geh_stream.codelists import Colname, ResultKeyName
 from package.steps.aggregation import aggregate_net_exchange_per_ga
-from geh_stream.codelists import MarketEvaluationPointType, ConnectionState, Quality
+from geh_stream.codelists import MarketEvaluationPointType, Quality
 from geh_stream.shared.data_classes import Metadata
 from geh_stream.schemas.output import aggregation_result_schema
 from pyspark.sql import DataFrame
 import pyspark.sql.functions as F
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
-
+from package.codelists import ConnectionState
 
 e_20 = MarketEvaluationPointType.exchange.value
 date_time_formatting_string = "%Y-%m-%dT%H:%M:%S%z"
