@@ -16,9 +16,8 @@ from datetime import datetime, timedelta
 from geh_stream.codelists import (
     Colname,
     ResultKeyName,
-    MarketEvaluationPointType,
 )
-from package.codelists import ResolutionDuration
+from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from package.steps.aggregation import (
     aggregate_flex_settled_consumption_ga_es,
     aggregate_flex_settled_consumption_ga_brp,

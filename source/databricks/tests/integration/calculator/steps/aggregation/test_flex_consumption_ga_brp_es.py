@@ -19,10 +19,13 @@ from package.steps.aggregation import (
     aggregate_per_ga_and_brp_and_es,
 )
 from geh_stream.codelists import (
-    MarketEvaluationPointType,
     Quality,
 )
-from package.codelists import ConnectionState, SettlementMethod
+from package.codelists import (
+    ConnectionState,
+    SettlementMethod,
+    MarketEvaluationPointType,
+)
 from geh_stream.shared.data_classes import Metadata
 from geh_stream.schemas.output import aggregation_result_schema
 from pyspark.sql import DataFrame

@@ -16,9 +16,8 @@ from datetime import datetime
 from geh_stream.codelists import (
     Colname,
     ResultKeyName,
-    MarketEvaluationPointType,
 )
-from package.codelists import ResolutionDuration
+from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from package.steps.aggregation import adjust_flex_consumption
 from geh_stream.codelists import Quality
 from geh_stream.shared.data_classes import Metadata

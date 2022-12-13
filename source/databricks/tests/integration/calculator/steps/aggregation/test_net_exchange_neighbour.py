@@ -20,11 +20,11 @@ from geh_stream.codelists import Colname, ResultKeyName
 from package.steps.aggregation import (
     aggregate_net_exchange_per_neighbour_ga,
 )
-from geh_stream.codelists import MarketEvaluationPointType, Quality
+from geh_stream.codelists import Quality
 from geh_stream.shared.data_classes import Metadata
 from geh_stream.schemas.output import aggregation_result_schema
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
-from package.codelists import ConnectionState
+from package.codelists import ConnectionState, MarketEvaluationPointType
 
 e_20 = MarketEvaluationPointType.exchange.value
 date_time_formatting_string = "%Y-%m-%dT%H:%M:%S%z"

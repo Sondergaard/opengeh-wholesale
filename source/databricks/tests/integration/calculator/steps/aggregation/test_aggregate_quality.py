@@ -14,7 +14,8 @@
 from datetime import datetime, timedelta
 from geh_stream.codelists import Colname
 from pyspark.sql.types import StructType, StringType, TimestampType
-from geh_stream.codelists import Quality, MarketEvaluationPointType
+from geh_stream.codelists import Quality
+from package.codelists import MarketEvaluationPointType
 from package.steps.aggregation import aggregate_quality
 import pytest
 import pandas as pd

@@ -17,11 +17,14 @@ from enum import Enum
 from geh_stream.codelists import (
     Colname,
     ResultKeyName,
-    MarketEvaluationPointType,
     Quality,
 )
-from package.codelists import ResolutionDuration
-from package.codelists import SettlementMethod
+from package.codelists import (
+    ResolutionDuration,
+    SettlementMethod,
+    MarketEvaluationPointType,
+)
+
 from package.steps.aggregation import (
     calculate_grid_loss,
     calculate_residual_ga,
