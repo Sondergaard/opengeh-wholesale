@@ -15,13 +15,12 @@ from decimal import Decimal
 from datetime import datetime
 from geh_stream.codelists import (
     MarketEvaluationPointType,
-    SettlementMethod,
     ResolutionDuration,
     ChargeType,
 )
 import pytest
 import pandas as pd
-
+from package.codelists import SettlementMethod
 
 const_charge_id = "001"
 const_charge_type = ChargeType.subscription
