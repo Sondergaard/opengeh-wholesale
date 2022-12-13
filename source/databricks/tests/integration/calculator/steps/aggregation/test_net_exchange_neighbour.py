@@ -16,13 +16,13 @@ import pytest
 from decimal import Decimal
 import pandas as pd
 from datetime import datetime, timedelta
-from geh_stream.codelists import Colname, ResultKeyName
+from package.constants import Colname, ResultKeyName
 from package.steps.aggregation import (
     aggregate_net_exchange_per_neighbour_ga,
 )
 from geh_stream.codelists import Quality
-from geh_stream.shared.data_classes import Metadata
-from geh_stream.schemas.output import aggregation_result_schema
+from package.shared.data_classes import Metadata
+from package.schemas.output import aggregation_result_schema
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 from package.codelists import ConnectionState, MarketEvaluationPointType
 

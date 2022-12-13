@@ -13,17 +13,17 @@
 # limitations under the License.
 from decimal import Decimal
 from datetime import datetime
-from geh_stream.codelists import Colname
 from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )
 from geh_stream.codelists import Quality
-from geh_stream.shared.data_classes import Metadata
-from geh_stream.schemas.output import aggregation_result_schema
+from package.shared.data_classes import Metadata
+from package.schemas.output import aggregation_result_schema
 import pytest
 import pandas as pd
-from tests.geh_stream.helpers import DataframeDefaults
+from tests.helpers import DataframeDefaults
+from package.constants import Colname
 
 
 @pytest.fixture(scope="module")
@@ -135,7 +135,7 @@ def test__create_dataframe_from_aggregation_result_schema__match_expected_datafr
         grid_area="A",
         time_window_start=datetime(2020, 1, 1, 0, 0),
         time_window_end=datetime(2020, 1, 1, 1, 0),
-        resolution=ResolutionDuration.hour.value,
+        resolution=ResolutionDuration.hour,
         sum_quantity=Decimal("1.234"),
         quality=Quality.estimated.value,
         metering_point_type=MarketEvaluationPointType.consumption.value,

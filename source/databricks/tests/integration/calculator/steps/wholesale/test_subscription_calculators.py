@@ -20,11 +20,11 @@ from pyspark.sql.types import (
     StringType,
     TimestampType,
 )
-from tests.geh_stream.helpers.test_schemas import (
+from tests.helpers.test_schemas import (
     charges_flex_settled_consumption_schema,
     charges_per_day_schema,
 )
-from geh_stream.codelists import Colname, market_evaluation_point_type
+from geh_stream.codelists import market_evaluation_point_type
 from package.codelists import SettlementMethod
 from package.steps.wholesale.subscription_calculators import (
     calculate_daily_subscription_price,
@@ -36,6 +36,7 @@ from package.steps.wholesale.wholesale_initializer import get_subscription_charg
 from calendar import monthrange
 import pytest
 import pandas as pd
+from package.constants import Colname
 
 
 def test__calculate_daily_subscription_price__simple(

@@ -11,10 +11,10 @@
 # # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # # See the License for the specific language governing permissions and
 # # limitations under the License.
-from geh_stream.codelists import Colname, ResultKeyName
+from package.constants import Colname, ResultKeyName
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, when
-from geh_stream.shared.data_classes import Metadata
+from package.shared.data_classes import Metadata
 
 
 metering_grid_area_domain_mrid_drop = "MeteringGridArea_Domain_mRID_drop"

@@ -26,20 +26,17 @@ from package.steps.wholesale.wholesale_initializer import (
     get_charges_based_on_charge_type,
     get_connected_metering_points,
 )
-from geh_stream.codelists import (
-    Colname,
-    ChargeType,
-)
+
 from package.codelists import ConnectionState, ResolutionDuration
-from geh_stream.schemas import (
+from package.schemas import (
     charges_schema,
     charge_prices_schema,
     charge_links_schema,
     metering_point_schema,
     market_roles_schema,
 )
-from geh_stream.schemas import time_series_points_schema
-from tests.geh_stream.helpers.test_schemas import (
+from package.schemas import time_series_points_schema
+from tests.helpers.test_schemas import (
     charges_with_prices_schema,
     charges_with_price_and_links_schema,
     charges_with_price_and_links_and_market_roles_schema,
@@ -48,6 +45,7 @@ from tests.geh_stream.helpers.test_schemas import (
 from pyspark.sql.functions import col
 import pytest
 import pandas as pd
+from package.constants import Colname
 
 
 charges_dataset = [

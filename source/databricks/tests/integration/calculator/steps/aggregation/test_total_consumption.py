@@ -22,14 +22,14 @@ from geh_stream.codelists import (
 )
 from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from package.steps.aggregation import calculate_total_consumption
-from geh_stream.shared.data_classes import Metadata
+from package.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 import pytest
 import pandas as pd
-
+from package.constants import Colname, ResultKeyName
 
 metadata = Metadata("1", "1", "1", "1", "1")
 

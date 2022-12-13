@@ -13,15 +13,14 @@
 # limitations under the License.
 from decimal import Decimal
 from datetime import datetime
-from geh_stream.codelists import Colname, ResultKeyName
+from package.constants import Colname, ResultKeyName
 from package.steps.aggregation import (
     aggregate_hourly_production,
     aggregate_per_ga_and_brp_and_es,
 )
 from geh_stream.codelists import Quality
-from package.codelists import MarketEvaluationPointType
-from geh_stream.shared.data_classes import Metadata
-from geh_stream.schemas.output import aggregation_result_schema
+from package.shared.data_classes import Metadata
+from package.schemas.output import aggregation_result_schema
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 import pytest
@@ -248,6 +247,6 @@ def test_hourly_production_test_invalid_connection_state(time_series_row_factory
 def test_hourly_production_test_filter_by_domain_is_pressent(time_series_row_factory):
     df = time_series_row_factory()
     aggregated_df = aggregate_per_ga_and_brp_and_es(
-        df, MarketEvaluationPointType.production, None, metadata
+        df, MarketEvaluationPointType.production.value, None, metadata
     )
     assert aggregated_df.count() == 1

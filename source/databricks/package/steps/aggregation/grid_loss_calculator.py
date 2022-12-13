@@ -13,19 +13,17 @@
 # limitations under the License.
 
 from geh_stream.codelists import (
-    Colname,
-    ResultKeyName,
     Quality,
 )
 from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, when, lit
 from .aggregate_quality import aggregate_total_consumption_quality
-from geh_stream.shared.data_classes import Metadata
+from package.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )
-
+from package.constants import Colname, ResultKeyName
 
 production_sum_quantity = "production_sum_quantity"
 exchange_sum_quantity = "exchange_sum_quantity"

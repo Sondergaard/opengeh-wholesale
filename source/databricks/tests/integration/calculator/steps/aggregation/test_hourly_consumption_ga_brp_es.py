@@ -13,7 +13,7 @@
 # limitations under the License.
 from decimal import Decimal
 from datetime import datetime
-from geh_stream.codelists import Colname, ResultKeyName
+from package.constants import Colname, ResultKeyName
 from package.steps.aggregation import (
     aggregate_hourly_consumption,
     aggregate_per_ga_and_brp_and_es,
@@ -26,9 +26,8 @@ from package.codelists import (
     SettlementMethod,
     MarketEvaluationPointType,
 )
-
-from geh_stream.shared.data_classes import Metadata
-from geh_stream.schemas.output import aggregation_result_schema
+from package.shared.data_classes import Metadata
+from package.schemas.output import aggregation_result_schema
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 import pytest

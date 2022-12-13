@@ -13,17 +13,13 @@
 # limitations under the License.
 from decimal import Decimal
 from datetime import datetime, timedelta
-from geh_stream.codelists import (
-    Colname,
-    ResultKeyName,
-)
 from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from package.steps.aggregation import (
     aggregate_flex_settled_consumption_ga_es,
     aggregate_flex_settled_consumption_ga_brp,
     aggregate_flex_settled_consumption_ga,
 )
-from geh_stream.shared.data_classes import Metadata
+from package.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )
@@ -31,6 +27,7 @@ from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 import pytest
 import pandas as pd
 from geh_stream.codelists import Quality
+from package.constants import Colname, ResultKeyName
 
 date_time_formatting_string = "%Y-%m-%dT%H:%M:%S%z"
 default_obs_time = datetime.strptime(

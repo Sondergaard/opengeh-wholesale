@@ -13,15 +13,11 @@
 # limitations under the License.
 from decimal import Decimal
 from datetime import datetime
-from geh_stream.codelists import (
-    Colname,
-    ResultKeyName,
-)
 from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from package.steps.aggregation import calculate_added_system_correction
 from geh_stream.codelists import Quality
-from geh_stream.shared.data_classes import Metadata
-from geh_stream.schemas.output import aggregation_result_schema
+from package.shared.data_classes import Metadata
+from package.schemas.output import aggregation_result_schema
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )
@@ -30,6 +26,7 @@ from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 from pyspark.sql.functions import col
 import pytest
 import pandas as pd
+from package.constants import Colname, ResultKeyName
 
 
 @pytest.fixture(scope="module")

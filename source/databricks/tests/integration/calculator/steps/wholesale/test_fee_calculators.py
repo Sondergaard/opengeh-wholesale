@@ -14,10 +14,10 @@
 from decimal import Decimal
 from datetime import datetime
 from geh_stream.codelists import ChargeType
-from tests.geh_stream.helpers.test_schemas import (
+from tests.helpers.test_schemas import (
     charges_flex_settled_consumption_schema,
 )
-from geh_stream.codelists import Colname
+from package.constants import Colname
 from package.steps.wholesale.fee_calculators import (
     calculate_fee_charge_price,
     filter_on_metering_point_type_and_settlement_method,
