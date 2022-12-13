@@ -13,7 +13,7 @@
 # limitations under the License.
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, window, lit
-from geh_stream.shared.data_classes import Metadata
+from package.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )

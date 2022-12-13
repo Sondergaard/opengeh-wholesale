@@ -16,9 +16,7 @@ from datetime import datetime
 
 from numpy import append
 from geh_stream.codelists import (
-    Colname,
     Quality,
-    ResultKeyName,
 )
 from package.codelists import ResolutionDuration, MarketEvaluationPointType
 from package.steps.aggregation import calculate_total_consumption
