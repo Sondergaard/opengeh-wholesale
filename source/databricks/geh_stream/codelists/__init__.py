@@ -15,7 +15,6 @@ from .market_evaluation_point_type import MarketEvaluationPointType
 from .quality import Quality
 from .settlement_method import SettlementMethod
 from .resolution_duration import ResolutionDuration
-from .connectionState import ConnectionState
 from .colname import Colname
 from .date_formats import DateFormat
 from .charge_type import ChargeType
