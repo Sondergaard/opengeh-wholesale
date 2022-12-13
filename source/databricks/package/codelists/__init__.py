@@ -13,7 +13,6 @@
 # limitations under the License.
 
 from .time_series_quality import TimeSeriesQuality
-from .metering_point_type import MeteringPointType
 from .connection_state import ConnectionState
 from .settlement_method import SettlementMethod
 from .resolution_duration import ResolutionDuration

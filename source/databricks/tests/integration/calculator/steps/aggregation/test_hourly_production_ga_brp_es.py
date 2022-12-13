@@ -25,7 +25,7 @@ from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType, StringType, DecimalType, TimestampType
 import pytest
 import pandas as pd
-from package.codelists import ConnectionState
+from package.codelists import ConnectionState, MarketEvaluationPointType
 
 e_17 = MarketEvaluationPointType.consumption.value
 e_18 = MarketEvaluationPointType.production.value
