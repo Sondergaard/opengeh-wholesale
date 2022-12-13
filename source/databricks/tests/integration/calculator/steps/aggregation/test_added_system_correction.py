@@ -78,7 +78,7 @@ def agg_result_factory(spark, grid_loss_schema):
                     },
                     Colname.sum_quantity: Decimal(-12.567),
                     Colname.quality: Quality.estimated.value,
-                    Colname.resolution: ResolutionDuration.hour,
+                    Colname.resolution: ResolutionDuration.hour.value,
                     Colname.metering_point_type: MarketEvaluationPointType.exchange.value,
                 },
                 {
@@ -89,7 +89,7 @@ def agg_result_factory(spark, grid_loss_schema):
                     },
                     Colname.sum_quantity: Decimal(34.32),
                     Colname.quality: Quality.estimated.value,
-                    Colname.resolution: ResolutionDuration.hour,
+                    Colname.resolution: ResolutionDuration.hour.value,
                     Colname.metering_point_type: MarketEvaluationPointType.exchange.value,
                 },
                 {
@@ -100,7 +100,7 @@ def agg_result_factory(spark, grid_loss_schema):
                     },
                     Colname.sum_quantity: Decimal(0.0),
                     Colname.quality: Quality.estimated.value,
-                    Colname.resolution: ResolutionDuration.hour,
+                    Colname.resolution: ResolutionDuration.hour.value,
                     Colname.metering_point_type: MarketEvaluationPointType.exchange.value,
                 },
             ],

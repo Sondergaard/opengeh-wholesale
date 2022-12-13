@@ -96,7 +96,7 @@ def adjust_flex_consumption(results: dict, metadata: Metadata) -> DataFrame:
         Colname.time_window,
         Colname.sum_quantity,
         Colname.quality,
-        lit(ResolutionDuration.hour).alias(
+        lit(ResolutionDuration.hour.value).alias(
             Colname.resolution
         ),  # TODO take resolution from metadata
         lit(MarketEvaluationPointType.consumption.value).alias(
