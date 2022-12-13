@@ -20,10 +20,7 @@ from pyspark.sql.functions import (
     greatest,
     least,
 )
-from package.codelists import (
-    ConnectionState,
-    MeteringPointType,
-)
+from package.codelists import ConnectionState, MarketEvaluationPointType
 
 from package.db_logging import debug
 from datetime import datetime
@@ -51,7 +48,7 @@ def get_metering_point_periods_df(
             (col("ConnectionState") == ConnectionState.connected.value)
             | (col("ConnectionState") == ConnectionState.disconnected.value)
         )
-        .where(col("MeteringPointType") == MeteringPointType.production.value)
+        .where(col("MeteringPointType") == MarketEvaluationPointType.production.value)
     )
 
     energy_supplier_periods_df = energy_supplier_periods_df.where(

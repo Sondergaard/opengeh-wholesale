@@ -29,24 +29,26 @@ from package.steps.wholesale.wholesale_initializer import (
 from geh_stream.codelists import (
     ChargeType,
 )
-from package.codelists import ConnectionState, ResolutionDuration
-from geh_stream.schemas import (
+from package.codelists import ResolutionDuration, ConnectionState
+from package.schemas import (
     charges_schema,
     charge_prices_schema,
     charge_links_schema,
     metering_point_schema,
     market_roles_schema,
 )
-from geh_stream.schemas import time_series_points_schema
-from tests.geh_stream.helpers.test_schemas import (
+from package.schemas import time_series_points_schema
+from tests.helpers.test_schemas import (
     charges_with_prices_schema,
     charges_with_price_and_links_schema,
     charges_with_price_and_links_and_market_roles_schema,
     charges_complete_schema,
 )
 from pyspark.sql.functions import col
+from pyspark.sql.dataframe import DataFrame
 import pytest
 import pandas as pd
+from package.constants import Colname
 
 
 charges_dataset = [
@@ -55,7 +57,7 @@ charges_dataset = [
         "001",
         ChargeType.tariff,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -66,7 +68,7 @@ charges_dataset = [
         "001",
         ChargeType.tariff,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -77,7 +79,7 @@ charges_dataset = [
         "001",
         ChargeType.tariff,
         "001",
-        ResolutionDuration.hour.value,
+        ResolutionDuration.hour,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -88,7 +90,7 @@ charges_dataset = [
         "001",
         ChargeType.tariff,
         "001",
-        ResolutionDuration.month.value,
+        ResolutionDuration.month,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -101,8 +103,8 @@ charges_dataset = [
 @pytest.mark.parametrize(
     "charges,resolution_duration,expected",
     [
-        (charges_dataset, ResolutionDuration.hour.value, 1),
-        (charges_dataset, ResolutionDuration.day.value, 2),
+        (charges_dataset, ResolutionDuration.hour, 1),
+        (charges_dataset, ResolutionDuration.day, 2),
     ],
 )
 def test__get_charges_based_on_resolution__filters_on_resolution_hour_or_day_only_for_tariff(
@@ -124,7 +126,7 @@ charges_dataset = [
         "001",
         ChargeType.tariff,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -135,7 +137,7 @@ charges_dataset = [
         "001",
         ChargeType.tariff,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -146,7 +148,7 @@ charges_dataset = [
         "001",
         ChargeType.subscription,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -157,7 +159,7 @@ charges_dataset = [
         "001",
         ChargeType.subscription,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -168,7 +170,7 @@ charges_dataset = [
         "001",
         ChargeType.fee,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -179,7 +181,7 @@ charges_dataset = [
         "001",
         ChargeType.tariff,
         "001",
-        ResolutionDuration.day.value,
+        ResolutionDuration.day,
         "No",
         "DDK",
         datetime(2020, 1, 1, 0, 0),
@@ -201,7 +203,7 @@ def test__get_charges_based_on_charge_type__filters_on_one_charge_type(
     spark, charges, charge_type, expected
 ):
     # Arrange
-    charges = spark.createDataFrame(charges, schema=charges_schema)
+    charges: DataFrame = spark.createDataFrame(charges, schema=charges_schema)
 
     # Act
     result = get_charges_based_on_charge_type(charges, charge_type)
@@ -730,8 +732,8 @@ time_series_dataset_1 = [
 @pytest.mark.parametrize(
     "time_series,resolution_duration,expected_count,expected_quantity",
     [
-        (time_series_dataset_1, ResolutionDuration.day.value, 2, 30),
-        (time_series_dataset_1, ResolutionDuration.hour.value, 3, 20),
+        (time_series_dataset_1, ResolutionDuration.day, 2, 30),
+        (time_series_dataset_1, ResolutionDuration.hour, 3, 20),
     ],
 )
 def test__group_by_time_series_on_metering_point_id_and_resolution_and_sum_quantity(

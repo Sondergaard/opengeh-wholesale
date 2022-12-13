@@ -169,8 +169,8 @@ def aggregate_hourly_consumption(results: dict, metadata: Metadata) -> DataFrame
     df = results[ResultKeyName.aggregation_base_dataframe]
     return aggregate_per_ga_and_brp_and_es(
         df,
-        MarketEvaluationPointType.consumption,
-        SettlementMethod.non_profiled,
+        MarketEvaluationPointType.consumption.value,
+        SettlementMethod.non_profiled.value,
         metadata,
     )
 
@@ -180,8 +180,8 @@ def aggregate_flex_consumption(results: dict, metadata: Metadata) -> DataFrame:
     df = results[ResultKeyName.aggregation_base_dataframe]
     return aggregate_per_ga_and_brp_and_es(
         df,
-        MarketEvaluationPointType.consumption,
-        SettlementMethod.flex_settled,
+        MarketEvaluationPointType.consumption.value,
+        SettlementMethod.flex_settled.value,
         metadata,
     )
 
@@ -201,13 +201,9 @@ def aggregate_per_ga_and_brp_and_es(
     settlement_method: SettlementMethod,
     metadata: Metadata,
 ):
-    result = df.filter(
-        col(Colname.metering_point_type) == market_evaluation_point_type.value
-    )
+    result = df.filter(col(Colname.metering_point_type) == market_evaluation_point_type)
     if settlement_method is not None:
-        result = result.filter(
-            col(Colname.settlement_method) == settlement_method.value
-        )
+        result = result.filter(col(Colname.settlement_method) == settlement_method)
     result = result.filter(
         (col(Colname.connection_state) == ConnectionState.connected.value)
         | (col(Colname.connection_state) == ConnectionState.disconnected.value)
@@ -234,8 +230,8 @@ def aggregate_per_ga_and_brp_and_es(
             lit(ResolutionDuration.hour.value).alias(
                 Colname.resolution
             ),  # TODO take resolution from metadata
-            lit(market_evaluation_point_type.value).alias(Colname.metering_point_type),
-            lit(None if settlement_method is None else settlement_method.value).alias(
+            lit(market_evaluation_point_type).alias(Colname.metering_point_type),
+            lit(None if settlement_method is None else settlement_method).alias(
                 Colname.settlement_method
             ),
         )
@@ -353,7 +349,7 @@ def __aggregate_per_ga_and_brp(
             lit(ResolutionDuration.hour.value).alias(
                 Colname.resolution
             ),  # TODO take resolution from metadata
-            lit(market_evaluation_point_type.value).alias(Colname.metering_point_type),
+            lit(market_evaluation_point_type).alias(Colname.metering_point_type),
         )
     )
     return create_dataframe_from_aggregation_result_schema(metadata, result)
@@ -405,7 +401,7 @@ def __aggregate_per_ga(
             lit(ResolutionDuration.hour.value).alias(
                 Colname.resolution
             ),  # TODO take resolution from metadata
-            lit(market_evaluation_point_type.value).alias(Colname.metering_point_type),
+            lit(market_evaluation_point_type).alias(Colname.metering_point_type),
         )
     )
     return create_dataframe_from_aggregation_result_schema(metadata, result)

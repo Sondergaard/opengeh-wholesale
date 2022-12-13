@@ -15,10 +15,11 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import pytest
+
 from package.calculation_input import get_metering_point_periods_df
 from package.codelists import (
     ConnectionState,
-    MeteringPointType,
+    MarketEvaluationPointType,
     SettlementMethod,
     ResolutionDuration,
 )
@@ -32,7 +33,7 @@ grid_area_code = "805"
 grid_area_link_id = "the-grid-area-link-id"
 metering_point_id = "the-metering-point-id"
 energy_supplier_id = "the-energy-supplier-id"
-metering_point_type = MeteringPointType.production.value
+metering_point_type = MarketEvaluationPointType.production.value
 settlement_method = SettlementMethod.flex_settled.value
 connection_state = ConnectionState.connected.value
 resolution = ResolutionDuration.hour.value
@@ -472,7 +473,7 @@ def test__when_type_is_production__returns_metering_point_period(
     metering_points_periods_df_factory,
 ):
     metering_points_periods_df = metering_points_periods_df_factory(
-        MeteringPointType=MeteringPointType.production.value
+        MeteringPointType=MarketEvaluationPointType.production.value
     )
     energy_supplier_periods_df = energy_supplier_periods_df_factory()
 
@@ -492,7 +493,7 @@ def test__when_type_is_not_E18__does_not_returns_metering_point_period(
     metering_points_periods_df_factory,
 ):
     metering_points_periods_df = metering_points_periods_df_factory(
-        MeteringPointType=MeteringPointType.consumption.value
+        MeteringPointType=MarketEvaluationPointType.consumption.value
     )
     energy_supplier_periods_df = energy_supplier_periods_df_factory()
 

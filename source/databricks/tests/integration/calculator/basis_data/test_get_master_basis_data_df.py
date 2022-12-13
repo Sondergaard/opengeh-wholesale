@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import pytest
-from package.codelists import MeteringPointType, ResolutionDuration
+from package.codelists import MarketEvaluationPointType, ResolutionDuration
 from package.basis_data import get_master_basis_data_df
 from datetime import datetime
 
@@ -28,7 +28,7 @@ def metering_point_period_df_factory(spark, timestamp_factory):
         grid_area_code="some-grid-area",
         effective_date: datetime = timestamp_factory("2022-06-08T22:00:00.000Z"),
         to_effective_date: datetime = timestamp_factory("2022-06-10T22:00:00.000Z"),
-        meteringpoint_type=MeteringPointType.production.value,
+        meteringpoint_type=MarketEvaluationPointType.production.value,
         from_grid_area="some-from-grid-area",
         to_grid_area="some-to-grid-area",
         settlement_method="some-settlement-method",
@@ -116,7 +116,7 @@ def test__columns_have_expected_values(
         grid_area_code=expected_grid_area_code,
         effective_date=expected_effective_date,
         to_effective_date=expected_to_effective_date,
-        meteringpoint_type=MeteringPointType.production.value,
+        meteringpoint_type=MarketEvaluationPointType.production.value,
         from_grid_area=expected_from_grid_area,
         to_grid_area=expected_to_grid_area,
         settlement_method=expected_settlement_method,
