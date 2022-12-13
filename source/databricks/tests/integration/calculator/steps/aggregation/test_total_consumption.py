@@ -19,9 +19,9 @@ from geh_stream.codelists import (
     Colname,
     Quality,
     ResultKeyName,
-    ResolutionDuration,
     MarketEvaluationPointType,
 )
+from package.codelists import ResolutionDuration
 from package.steps.aggregation import calculate_total_consumption
 from geh_stream.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (

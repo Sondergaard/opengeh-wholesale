@@ -14,9 +14,9 @@
 from geh_stream.codelists import (
     Colname,
     ResultKeyName,
-    ResolutionDuration,
     MarketEvaluationPointType,
 )
+from package.codelists import ResolutionDuration
 from geh_stream.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,

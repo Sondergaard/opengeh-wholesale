@@ -18,9 +18,9 @@ from geh_stream.codelists import (
     Colname,
     ResultKeyName,
     MarketEvaluationPointType,
-    ResolutionDuration,
     Quality,
 )
+from package.codelists import ResolutionDuration
 from package.codelists import SettlementMethod
 from package.steps.aggregation import (
     calculate_grid_loss,

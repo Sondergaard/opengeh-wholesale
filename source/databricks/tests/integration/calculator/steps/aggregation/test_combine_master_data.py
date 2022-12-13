@@ -13,7 +13,8 @@
 # limitations under the License.
 from decimal import Decimal
 from datetime import datetime
-from geh_stream.codelists import Colname, ResultKeyName, ResolutionDuration
+from geh_stream.codelists import Colname, ResultKeyName
+from package.codelists import ResolutionDuration
 from package.steps.aggregation import (
     combine_added_system_correction_with_master_data,
     combine_added_grid_loss_with_master_data,

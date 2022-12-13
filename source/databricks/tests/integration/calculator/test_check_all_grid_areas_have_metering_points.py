@@ -18,7 +18,7 @@ from package.calculator_job import (
     _check_all_grid_areas_have_metering_points,
 )
 from package.codelists import (
-    MeteringPointResolution,
+    ResolutionDuration,
 )
 
 
@@ -34,7 +34,7 @@ def metering_point_period_df_factory(spark, timestamp_factory):
                 "MeteringPointType": "the_metering_point_type",
                 "EffectiveDate": timestamp_factory("2022-01-01T22:00:00.000Z"),
                 "toEffectiveDate": timestamp_factory("2022-01-11T22:00:00.000Z"),
-                "Resolution": MeteringPointResolution.hour.value,
+                "Resolution": ResolutionDuration.hour.value,
             }
         ]
         return spark.createDataFrame(df)

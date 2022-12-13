@@ -13,17 +13,12 @@
 # limitations under the License.
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, window, lit
-from geh_stream.codelists import (
-    MarketEvaluationPointType,
-    Colname,
-    ResultKeyName,
-    ResolutionDuration,
-)
+from geh_stream.codelists import MarketEvaluationPointType, Colname, ResultKeyName
 from geh_stream.shared.data_classes import Metadata
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )
-from package.codelists import ConnectionState, SettlementMethod
+from package.codelists import ConnectionState, SettlementMethod, ResolutionDuration
 
 in_sum = "in_sum"
 out_sum = "out_sum"

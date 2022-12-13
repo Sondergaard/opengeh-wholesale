@@ -19,9 +19,7 @@ from pyspark.sql.functions import (
     expr,
     explode,
 )
-from package.codelists import (
-    MeteringPointResolution,
-)
+from package.codelists import ResolutionDuration
 
 from package.db_logging import debug
 import package.basis_data as basis_data
@@ -74,10 +72,10 @@ def _get_enriched_time_series_points_df(
     ).where(col("Time") < period_end_datetime)
 
     quarterly_mp_df = master_basis_data_df.where(
-        col("Resolution") == MeteringPointResolution.quarterly.value
+        col("Resolution") == ResolutionDuration.quarter.value
     )
     hourly_mp_df = master_basis_data_df.where(
-        col("Resolution") == MeteringPointResolution.hour.value
+        col("Resolution") == ResolutionDuration.hour.value
     )
 
     exclusive_period_end_datetime = period_end_datetime - timedelta(milliseconds=1)

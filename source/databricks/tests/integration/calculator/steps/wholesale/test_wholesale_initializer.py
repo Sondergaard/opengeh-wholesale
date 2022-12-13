@@ -29,9 +29,8 @@ from package.steps.wholesale.wholesale_initializer import (
 from geh_stream.codelists import (
     Colname,
     ChargeType,
-    ResolutionDuration,
 )
-from package.codelists import ConnectionState
+from package.codelists import ConnectionState, ResolutionDuration
 from geh_stream.schemas import (
     charges_schema,
     charge_prices_schema,

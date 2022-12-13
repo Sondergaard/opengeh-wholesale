@@ -20,7 +20,7 @@ from package.codelists import (
     ConnectionState,
     MeteringPointType,
     SettlementMethod,
-    MeteringPointResolution,
+    ResolutionDuration,
 )
 
 from pyspark.sql.functions import col
@@ -35,7 +35,7 @@ energy_supplier_id = "the-energy-supplier-id"
 metering_point_type = MeteringPointType.production.value
 settlement_method = SettlementMethod.flex_settled.value
 connection_state = ConnectionState.connected.value
-resolution = MeteringPointResolution.hour.value
+resolution = ResolutionDuration.hour.value
 date_time_formatting_string = "%Y-%m-%dT%H:%M:%S.%f"
 june_1th = datetime.strptime(
     "2022-06-01T00:00:00.000", date_time_formatting_string
@@ -532,7 +532,7 @@ def test__metering_points_have_expected_columns(
             & (col("SettlementMethod") == settlement_method)
             & (col("FromGridAreaCode") == "some-in-gride-area")
             & (col("ToGridAreaCode") == "some-out-gride-area")
-            & (col("Resolution") == MeteringPointResolution.hour.value)
+            & (col("Resolution") == ResolutionDuration.hour.value)
             & (col("EnergySupplierId") == energy_supplier_id)
         ).count()
         == 1

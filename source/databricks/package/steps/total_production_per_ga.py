@@ -30,10 +30,7 @@ from pyspark.sql.types import (
     DecimalType,
 )
 from pyspark.sql.window import Window
-from package.codelists import (
-    TimeSeriesQuality,
-    MeteringPointResolution,
-)
+from package.codelists import TimeSeriesQuality, ResolutionDuration
 
 from package.db_logging import debug
 from decimal import Decimal
@@ -47,7 +44,7 @@ def get_total_production_per_ga_df(
         enriched_time_series_points_df.withColumn(
             "quarter_times",
             when(
-                col("Resolution") == MeteringPointResolution.hour.value,
+                col("Resolution") == ResolutionDuration.hour.value,
                 array(
                     col("time"),
                     col("time") + expr("INTERVAL 15 minutes"),
@@ -55,7 +52,7 @@ def get_total_production_per_ga_df(
                     col("time") + expr("INTERVAL 45 minutes"),
                 ),
             ).when(
-                col("Resolution") == MeteringPointResolution.quarterly.value,
+                col("Resolution") == ResolutionDuration.quarter.value,
                 array(col("time")),
             ),
         )
@@ -67,10 +64,10 @@ def get_total_production_per_ga_df(
         .withColumn(
             "quarter_quantity",
             when(
-                col("Resolution") == MeteringPointResolution.hour.value,
+                col("Resolution") == ResolutionDuration.hour.value,
                 col("Quantity") / 4,
             ).when(
-                col("Resolution") == MeteringPointResolution.quarterly.value,
+                col("Resolution") == ResolutionDuration.quarter.value,
                 col("Quantity"),
             ),
         )

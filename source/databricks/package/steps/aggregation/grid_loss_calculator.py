@@ -15,10 +15,10 @@
 from geh_stream.codelists import (
     Colname,
     ResultKeyName,
-    ResolutionDuration,
     MarketEvaluationPointType,
     Quality,
 )
+from package.codelists import ResolutionDuration
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, when, lit
 from .aggregate_quality import aggregate_total_consumption_quality

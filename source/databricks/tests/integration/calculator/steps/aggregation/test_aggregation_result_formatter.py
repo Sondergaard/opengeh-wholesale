@@ -13,7 +13,8 @@
 # limitations under the License.
 from decimal import Decimal
 from datetime import datetime
-from geh_stream.codelists import Colname, ResolutionDuration, MarketEvaluationPointType
+from geh_stream.codelists import Colname, MarketEvaluationPointType
+from package.codelists import ResolutionDuration
 from package.steps.aggregation.aggregation_result_formatter import (
     create_dataframe_from_aggregation_result_schema,
 )
