@@ -29,6 +29,7 @@ from .aggregators import (
     aggregate_production_ga,
     aggregate_non_profiled_consumption_ga,
     aggregate_flex_consumption_ga,
+    __aggregate_sum_and_set_quality,
 )
 from .grid_loss_calculator import (
     calculate_grid_loss,

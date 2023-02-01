@@ -471,9 +471,15 @@ def __aggregate_sum_and_set_quality(
             "Quality",
             when(
                 array_contains(
+                    col("collect_set(Quality)"), lit(TimeSeriesQuality.incomplete.value)
+                ),
+                lit(TimeSeriesQuality.incomplete.value),
+            )
+            .when(
+                array_contains(
                     col("collect_set(Quality)"), lit(TimeSeriesQuality.missing.value)
                 ),
-                lit(TimeSeriesQuality.missing.value),
+                lit(TimeSeriesQuality.incomplete.value),
             )
             .when(
                 array_contains(
