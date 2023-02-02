@@ -457,11 +457,40 @@ def __aggregate_per_ga(
 
 
 def __aggregate_sum_and_set_quality(
-    result: DataFrame, quantity_col_name: str, group_by: list[str]
+    df: DataFrame, quantity_col_name: str, group_by: list[str]
 ) -> DataFrame:
+    """Aggregate sum of within the specified groups, and set the associated quality according to business rules.
+
+    Parameters
+    ----------
+    df : the data frame to act on
+    quantity_col_name: the name of the column to perform the summation on
+    group_by: the groups to sum within
+
+    Business rule
+    ----------
+    The quality is set based on this rule:
+
+    A02 + A02 = A05
+
+    A02 + A03 = A05
+
+    A02 + A04 = A05
+
+    A03 + A04 = A03
+
+    A03 + A03 = A03
+
+    A04 + A04 = A04
+
+    Note that the input dataframe can have A05 although the metering point timeseries can not have A05.
+    This happens when the dataframe has already been through this function once, e.g., first when calculating
+    quantity per ga, es and brp, and now to sum across ES.
+
+    """
 
     result = (
-        result.groupBy(group_by).agg(
+        df.groupBy(group_by).agg(
             # TODO: Doesn't this sum become null if just one quantity is already null? Should we replace null with 0 before this operation?
             sum(quantity_col_name).alias(Colname.sum_quantity),
             collect_set("Quality"),

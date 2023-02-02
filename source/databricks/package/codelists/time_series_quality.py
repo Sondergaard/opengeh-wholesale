@@ -20,3 +20,4 @@ class TimeSeriesQuality(Enum):
     estimated = "A03"
     measured = "A04"
     incomplete = "A05"
+    calculated = "A06"
