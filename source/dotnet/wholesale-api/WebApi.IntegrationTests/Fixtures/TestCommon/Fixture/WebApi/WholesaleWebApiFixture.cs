@@ -55,7 +55,7 @@ namespace Energinet.DataHub.Wholesale.WebApi.IntegrationTests.Fixtures.TestCommo
         /// <inheritdoc/>
         protected override async Task OnInitializeWebApiDependenciesAsync(IConfiguration localSettingsSnapshot)
         {
-            AzuriteManager.StartAzurite();
+            AzuriteManager.StartAzurite(useOAuth: true);
             await DatabaseManager.CreateDatabaseAsync();
 
             // Overwrites the setting so the Web Api app uses the database we have control of in the test
